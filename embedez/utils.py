@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
 import orjson
@@ -20,18 +21,24 @@ EMBED_HTML = f"""
 """
 
 
+@dataclass
+class SearchResult:
+    key: str
+    site: str
+
+
 async def fetch_html(session: aiohttp.ClientSession, url: str) -> str:
     async with session.get(url) as resp:
         resp.raise_for_status()
         return await resp.text()
 
 
-async def search_embedez(session: aiohttp.ClientSession, url: str) -> str:
+async def search_embedez(session: aiohttp.ClientSession, url: str) -> SearchResult:
     async with session.get(SEARCH_ENDPOINT.format(url=url)) as resp:
         resp.raise_for_status()
         data: dict[str, Any] = await resp.json()
 
-    return data["data"]["key"]
+    return SearchResult(key=data["data"]["key"], site=data["data"]["site"])
 
 
 async def fetch_embedez_oembed(session: aiohttp.ClientSession, url: str) -> dict[str, Any]:

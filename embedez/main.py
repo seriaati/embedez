@@ -49,10 +49,10 @@ async def embed(request: fastapi.Request) -> fastapi.Response:
     if "Discordbot" not in request.headers.get("User-Agent", ""):
         return fastapi.responses.RedirectResponse(url)
 
-    key = await search_embedez(request.app.state.session, url)
-    embedez_url = f"https://embedez.com/embed/{key}"
+    result = await search_embedez(request.app.state.session, url)
+    embedez_url = f"https://embedez.com/embed/{result.key}"
     html = await fetch_html(request.app.state.session, embedez_url)
     html = html.replace(embedez_url, url)
-    html = html.replace("EmbedEZ", "Instagram")
+    html = html.replace("EmbedEZ", result.site.title())
 
     return fastapi.responses.HTMLResponse(html)
