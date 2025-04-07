@@ -55,6 +55,6 @@ async def embed(request: fastapi.Request) -> fastapi.Response:
 
     html = html.replace(embedez_url, url)
     html = html.replace("EmbedEZ", result.site.title())
-    html = html.replace("embedez.com", request.url.netloc)
+    html = html.replace("@embedez.com", f"@{request.url.netloc}")
 
     return fastapi.responses.HTMLResponse(html)
