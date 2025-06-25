@@ -8,7 +8,13 @@ I consider this service to be unethical, as it interferes with the original cont
 
 <https://embedez.seria.moe/embed?url={URL}>
 
-### Examples
+## Examples
 
 - Instagram: <https://embedez.seria.moe/embed?url=https://instagram.com/p/DHpNga4RiOD/>
 - Facebook Reels: <https://embedez.seria.moe/embed?url=https://www.facebookez.com/share/r/1HG7RTsybr/?mibextid=wwXIfr>
+
+## Embed Fixer
+
+This service is made for [Embed Fixer](https://github.com/seriaati/embed-fixer).
+
+Since the way to use this fixer is quite troublesome (need to add a lot of texts), I recommend using the bot as it changes the URL for you.
