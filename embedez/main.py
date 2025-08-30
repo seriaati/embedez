@@ -9,11 +9,14 @@ import aiohttp_socks
 import fastapi
 from aiohttp_client_cache.backends.sqlite import SQLiteBackend
 from aiohttp_client_cache.session import CachedSession
+from dotenv import load_dotenv
 
 from embedez.utils import fetch_html, search_embedez
 
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
+
+load_dotenv()
 
 logger = logging.getLogger("uvicorn")
 
