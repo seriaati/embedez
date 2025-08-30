@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import os
 from contextlib import asynccontextmanager
 from typing import TYPE_CHECKING
@@ -14,15 +15,19 @@ from embedez.utils import fetch_html, search_embedez
 if TYPE_CHECKING:
     from collections.abc import AsyncGenerator
 
+logger = logging.getLogger("uvicorn")
+
 
 @asynccontextmanager
 async def lifespan(app: fastapi.FastAPI) -> AsyncGenerator[None, fastapi.FastAPI]:
     proxy_url = os.getenv("PROXY_URL")
+    if proxy_url:
+        logger.info("Using proxy")
     connector = aiohttp_socks.ProxyConnector.from_url(proxy_url) if proxy_url else None
 
     cache = SQLiteBackend("cache.db", expire_after=3600)
     app.state.session = CachedSession(
-        cache=cache,
+        cache=None if os.getenv("DISABLE_CACHE") else cache,
         connector=connector,
         headers={"User-Agent": "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)"},
     )
@@ -50,6 +55,8 @@ async def embed(request: fastapi.Request) -> fastapi.Response:
         return fastapi.responses.RedirectResponse(url)
 
     result = await search_embedez(request.app.state.session, url)
+    logger.info("Found embedez result for %s: %s", url, result)
+
     embedez_url = f"https://embedez.com/embed/{result.key}"
     html = await fetch_html(request.app.state.session, embedez_url)
 
