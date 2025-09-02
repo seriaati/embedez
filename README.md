@@ -1,3 +1,7 @@
+# PROJECT ABANDONED
+
+This project will no longer be maintained. Please use [Embed Fixer](https://github.com/seriaati/embed-fixer) and turn on "Show original link button" in settings.
+
 # embedez
 
 This is a proxy for [EmbedEZ](https://embedez.com/), it utilizes EmbedEZ's API to provide the same embed as the original service, but removes the ads and redirects to the original source of the URL instead of EmbedEZ's page.
